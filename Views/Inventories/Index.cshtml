@@ -1,0 +1,57 @@
+﻿@model IEnumerable<PartsInventoryV6.Inventory>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DESCRIPTION)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OLD_NUMBER)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NEW_NUMBER)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UNIT_OF_ISSUE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SYS_CODE)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DESCRIPTION)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OLD_NUMBER)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NEW_NUMBER)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UNIT_OF_ISSUE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SYS_CODE)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
