@@ -81,3 +81,7 @@ C:\Users\e096752\Documents\Cole's Git Repos\PartsInventoryV6\obj\Debug\PartsInve
 C:\Users\e096752\Documents\Cole's Git Repos\PartsInventoryV6\obj\Debug\PartsInventoryV6.csproj.CopyComplete
 C:\Users\e096752\Documents\Cole's Git Repos\PartsInventoryV6\obj\Debug\PartsInventoryV6.dll
 C:\Users\e096752\Documents\Cole's Git Repos\PartsInventoryV6\obj\Debug\PartsInventoryV6.pdb
+C:\Users\e096752\Documents\Cole's Git Repos\PartsInventoryV6\bin\PagedList.dll
+C:\Users\e096752\Documents\Cole's Git Repos\PartsInventoryV6\bin\PagedList.Mvc.dll
+C:\Users\e096752\Documents\Cole's Git Repos\PartsInventoryV6\bin\PagedList.xml
+C:\Users\e096752\Documents\Cole's Git Repos\PartsInventoryV6\bin\PagedList.Mvc.xml

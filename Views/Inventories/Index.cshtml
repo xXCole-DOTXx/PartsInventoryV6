@@ -1,57 +1,87 @@
-﻿@model IEnumerable<PartsInventoryV6.Inventory>
-
+﻿@model PagedList.IPagedList<PartsInventoryV6.Inventory>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Parts";
 }
 
-<h2>Index</h2>
+<!---Page created with the help of: https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/sorting-filtering-and-paging-with-the-entity-framework-in-an-asp-net-mvc-application-->
+
+<h2>Equipment Inventory</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+
+@using (Html.BeginForm("Index", "Inventories", FormMethod.Get)) //Middle value points at the folder IG and the first one at the specific view. I'm not real sure
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+
+        <a id="fullList">
+            Back to full list
+        </a>
+    </p>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (window.location.href.indexOf("SearchString") > -1) {
+            $("#fullList").hide();
+        }
+</script>
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.DESCRIPTION)
+            @Html.ActionLink("Description", "Index", new { sortOrder = ViewBag.DescSort, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OLD_NUMBER)
+            @Html.ActionLink("Old Number", "Index", new { sortOrder = ViewBag.OldNumSort, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.NEW_NUMBER)
+            @Html.ActionLink("New Number", "Index", new { sortOrder = ViewBag.NewNumSort, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UNIT_OF_ISSUE)
+            Unit of Issue
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SYS_CODE)
+            Sys Code
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.DESCRIPTION)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OLD_NUMBER)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NEW_NUMBER)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UNIT_OF_ISSUE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SYS_CODE)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DESCRIPTION)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OLD_NUMBER)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NEW_NUMBER)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UNIT_OF_ISSUE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SYS_CODE)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
 
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
