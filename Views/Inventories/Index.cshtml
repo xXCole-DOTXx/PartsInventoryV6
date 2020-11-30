@@ -19,7 +19,7 @@
 @using (Html.BeginForm("Index", "Inventories", FormMethod.Get)) //Middle value points at the folder IG and the first one at the specific view. I'm not real sure
 {
     <p>
-        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        Search: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
         <input type="submit" value="Search" />
     </p>
     <div id="fullList">
@@ -77,7 +77,6 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.ID })
             </td>
         </tr>
