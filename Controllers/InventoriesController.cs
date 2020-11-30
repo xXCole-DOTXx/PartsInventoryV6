@@ -101,7 +101,7 @@ namespace PartsInventoryV6.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,DESCRIPTION,OLD_NUMBER,NEW_NUMBER,UNIT_OF_ISSUE,SYS_CODE")] Inventory inventory)
+        public ActionResult Create([Bind(Include = "ID,DESCRIPTION,OLD_NUMBER,NEW_NUMBER,UNIT_OF_ISSUE,SYS_CODE,IMAGE_PATH")] Inventory inventory)
         {
             if (ModelState.IsValid)
             {
@@ -133,7 +133,7 @@ namespace PartsInventoryV6.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,DESCRIPTION,OLD_NUMBER,NEW_NUMBER,UNIT_OF_ISSUE,SYS_CODE")] Inventory inventory)
+        public ActionResult Edit([Bind(Include = "ID,DESCRIPTION,OLD_NUMBER,NEW_NUMBER,UNIT_OF_ISSUE,SYS_CODE,IMAGE_PATH")] Inventory inventory)
         {
             if (ModelState.IsValid)
             {

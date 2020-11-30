@@ -25,5 +25,8 @@ namespace PartsInventoryV6
         public string SYS_CODE { get; set; }
 
         public int ID { get; set; }
+
+        [StringLength(255)]
+        public string IMAGE_PATH { get; set; }
     }
 }

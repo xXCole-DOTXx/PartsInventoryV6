@@ -54,32 +54,38 @@
         <th>
             Sys Code
         </th>
+        <th>
+            Image
+        </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DESCRIPTION)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OLD_NUMBER)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NEW_NUMBER)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UNIT_OF_ISSUE)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SYS_CODE)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-            </td>
-        </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.DESCRIPTION)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.OLD_NUMBER)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.NEW_NUMBER)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.UNIT_OF_ISSUE)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.SYS_CODE)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.IMAGE_PATH)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+    </td>
+</tr>
     }
 
 </table>
