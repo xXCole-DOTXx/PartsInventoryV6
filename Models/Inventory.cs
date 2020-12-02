@@ -5,6 +5,7 @@ namespace PartsInventoryV6
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using Microsoft.AspNetCore.Http;
 
     [Table("Inventory")]
     public partial class Inventory
@@ -28,5 +29,7 @@ namespace PartsInventoryV6
 
         [StringLength(255)]
         public string IMAGE_PATH { get; set; }
+
+        public IFormFile Photo { get; set; }
     }
 }

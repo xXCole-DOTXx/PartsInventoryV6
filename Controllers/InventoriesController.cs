@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using PartsInventoryV6;
 using System.Threading.Tasks;
 using PagedList;
+using System.IO;
 
 //File was made with the help of: https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/sorting-filtering-and-paging-with-the-entity-framework-in-an-asp-net-mvc-application
 namespace PartsInventoryV6.Controllers
@@ -101,8 +102,33 @@ namespace PartsInventoryV6.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,DESCRIPTION,OLD_NUMBER,NEW_NUMBER,UNIT_OF_ISSUE,SYS_CODE,IMAGE_PATH")] Inventory inventory)
+        public ActionResult Create([Bind(Include = "ID,DESCRIPTION,OLD_NUMBER,NEW_NUMBER,UNIT_OF_ISSUE,SYS_CODE,IMAGE_PATH")] Inventory inventory, HttpPostedFileBase postedFile)
         {
+            System.Diagnostics.Debug.WriteLine("postedFile: " + postedFile.FileName); //Not getting postedFile
+            string path = Server.MapPath("~/Images/");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+                System.Diagnostics.Debug.WriteLine("Created the folder.");
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("It already exists.");
+            }
+
+            if (postedFile != null)
+            {
+                string fileName = Path.GetFileName(postedFile.FileName);
+                postedFile.SaveAs(path + fileName);
+                System.Diagnostics.Debug.WriteLine("postedFile was not null");
+                ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("postedFile was null I guess.");
+            }
+
+
             if (ModelState.IsValid)
             {
                 db.Inventories.Add(inventory);
