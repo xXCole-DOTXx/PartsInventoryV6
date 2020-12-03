@@ -118,14 +118,11 @@ namespace PartsInventoryV6.Controllers
                 System.Diagnostics.Debug.WriteLine("Posted File: " + postedFile.FileName);
                 ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
             }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("postedFile was null ig.");
-            }
 
 
             if (ModelState.IsValid)
             {
+                inventory.IMAGE_PATH = inventory.OLD_NUMBER + postedFile.FileName;
                 db.Inventories.Add(inventory);
                 db.SaveChanges();
                 return RedirectToAction("Index");
