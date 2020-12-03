@@ -102,30 +102,13 @@ namespace PartsInventoryV6.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,DESCRIPTION,OLD_NUMBER,NEW_NUMBER,UNIT_OF_ISSUE,SYS_CODE,IMAGE_PATH")] Inventory inventory, HttpPostedFileBase postedFile)
+        public ActionResult Create([Bind(Include = "ID,DESCRIPTION,OLD_NUMBER,NEW_NUMBER,UNIT_OF_ISSUE,SYS_CODE,IMAGE_PATH,PostedFile")] Inventory inventory, HttpPostedFileBase postedFile)
         {
-            System.Diagnostics.Debug.WriteLine("postedFile: " + postedFile.FileName); //Not getting postedFile
             string path = Server.MapPath("~/Images/");
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
                 System.Diagnostics.Debug.WriteLine("Created the folder.");
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("It already exists.");
-            }
-
-            if (postedFile != null)
-            {
-                string fileName = Path.GetFileName(postedFile.FileName);
-                postedFile.SaveAs(path + fileName);
-                System.Diagnostics.Debug.WriteLine("postedFile was not null");
-                ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("postedFile was null I guess.");
             }
 
 
@@ -133,6 +116,14 @@ namespace PartsInventoryV6.Controllers
             {
                 db.Inventories.Add(inventory);
                 db.SaveChanges();
+                System.Diagnostics.Debug.WriteLine(inventory.PostedFile.FileName);
+                if (postedFile != null)
+                {
+                    string fileName = Path.GetFileName(postedFile.FileName);
+                    postedFile.SaveAs(path + fileName);
+                    System.Diagnostics.Debug.WriteLine("postedFile was not null");
+                    ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
+                }
                 return RedirectToAction("Index");
             }
 
