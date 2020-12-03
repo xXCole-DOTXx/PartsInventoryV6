@@ -66,7 +66,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PostedFile, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.PostedFile, new { type = "file" })
+                @Html.TextBoxFor(model => model.PostedFile, null, new { type = "file", @class = "input-file" })
                 @Html.ValidationMessageFor(model => model.PostedFile, "", new { @class = "error" })
             </div>
         </div>

@@ -32,7 +32,6 @@ namespace PartsInventoryV6
         public string IMAGE_PATH { get; set; }
 
         [NotMapped]
-        [Required(ErrorMessage = "Please select file.")]
         [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.png|.jpg|.gif)$", ErrorMessage = "Only Image files allowed.")]
         public HttpPostedFileBase PostedFile { get; set; }
     }

@@ -102,7 +102,7 @@ namespace PartsInventoryV6.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,DESCRIPTION,OLD_NUMBER,NEW_NUMBER,UNIT_OF_ISSUE,SYS_CODE,IMAGE_PATH,PostedFile")] Inventory inventory, HttpPostedFileBase postedFile)
+        public ActionResult Create([Bind(Include = "ID,DESCRIPTION,OLD_NUMBER,NEW_NUMBER,UNIT_OF_ISSUE,SYS_CODE,IMAGE_PATH")] Inventory inventory, HttpPostedFileBase postedFile)
         {
             string path = Server.MapPath("~/Images/");
             if (!Directory.Exists(path))
@@ -111,19 +111,23 @@ namespace PartsInventoryV6.Controllers
                 System.Diagnostics.Debug.WriteLine("Created the folder.");
             }
 
+            if (postedFile != null)
+            {
+                string fileName = Path.GetFileName(postedFile.FileName);
+                postedFile.SaveAs(path + fileName);
+                System.Diagnostics.Debug.WriteLine("Posted File: " + postedFile.FileName);
+                ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("postedFile was null ig.");
+            }
+
 
             if (ModelState.IsValid)
             {
                 db.Inventories.Add(inventory);
                 db.SaveChanges();
-                System.Diagnostics.Debug.WriteLine(inventory.PostedFile.FileName);
-                if (postedFile != null)
-                {
-                    string fileName = Path.GetFileName(postedFile.FileName);
-                    postedFile.SaveAs(path + fileName);
-                    System.Diagnostics.Debug.WriteLine("postedFile was not null");
-                    ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
-                }
                 return RedirectToAction("Index");
             }
 
