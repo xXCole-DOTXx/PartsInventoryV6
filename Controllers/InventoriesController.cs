@@ -114,14 +114,17 @@ namespace PartsInventoryV6.Controllers
             if (postedFile != null)
             {
                 string fileName = Path.GetFileName(postedFile.FileName);
+                fileName = fileName.Replace("lower_arm", "0"); //Renaming the file to ensure uniqueness
                 postedFile.SaveAs(path + fileName);
                 System.Diagnostics.Debug.WriteLine("Posted File: " + postedFile.FileName);
                 ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
             }
+ 
 
 
             if (ModelState.IsValid)
             {
+                System.Diagnostics.Debug.WriteLine("New File name: " + inventory.ID + postedFile.ContentType);
                 inventory.IMAGE_PATH = inventory.OLD_NUMBER + postedFile.FileName;
                 db.Inventories.Add(inventory);
                 db.SaveChanges();
