@@ -10,6 +10,7 @@ using PartsInventoryV6;
 using System.Threading.Tasks;
 using PagedList;
 using System.IO;
+using System.Text.RegularExpressions;
 
 //File was made with the help of: https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/sorting-filtering-and-paging-with-the-entity-framework-in-an-asp-net-mvc-application
 namespace PartsInventoryV6.Controllers
@@ -111,12 +112,16 @@ namespace PartsInventoryV6.Controllers
                 System.Diagnostics.Debug.WriteLine("Created the folder.");
             }
 
+
             if (postedFile != null)
             {
                 string fileName = Path.GetFileName(postedFile.FileName);
-                fileName = fileName.Replace("lower_arm", "0"); //Renaming the file to ensure uniqueness
-                postedFile.SaveAs(path + fileName);
-                System.Diagnostics.Debug.WriteLine("Posted File: " + postedFile.FileName);
+                string pattern = @".*(?=\.)";
+                string final = Regex.Replace(fileName, pattern, inventory.NEW_NUMBER);
+                inventory.IMAGE_PATH = final;
+
+                System.Diagnostics.Debug.WriteLine("Final: " + final);
+                postedFile.SaveAs(path + final);
                 ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
             }
  
@@ -124,8 +129,6 @@ namespace PartsInventoryV6.Controllers
 
             if (ModelState.IsValid)
             {
-                System.Diagnostics.Debug.WriteLine("New File name: " + inventory.ID + postedFile.ContentType);
-                inventory.IMAGE_PATH = inventory.OLD_NUMBER + postedFile.FileName;
                 db.Inventories.Add(inventory);
                 db.SaveChanges();
                 return RedirectToAction("Index");
