@@ -79,7 +79,7 @@
         @Html.DisplayFor(modelItem => item.SYS_CODE)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.IMAGE_PATH)
+        <img src="~/Images/@item.IMAGE_PATH" asp-append-version="true" height="40px" width="50px">
     </td>
     <td>
         @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
