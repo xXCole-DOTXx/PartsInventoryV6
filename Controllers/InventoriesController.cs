@@ -118,9 +118,10 @@ namespace PartsInventoryV6.Controllers
                 string fileName = Path.GetFileName(postedFile.FileName);
                 string pattern = @".*(?=\.)";
                 string final = Regex.Replace(fileName, pattern, inventory.NEW_NUMBER);
+                //For full path
+                //inventory.IMAGE_PATH = path + final;
+                //For image name only
                 inventory.IMAGE_PATH = final;
-
-                System.Diagnostics.Debug.WriteLine("Final: " + final);
                 postedFile.SaveAs(path + final);
                 ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
             }
