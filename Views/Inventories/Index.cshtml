@@ -82,13 +82,12 @@
         @Html.DisplayFor(modelItem => item.SYS_CODE)
     </td>
     <td>
-        @{int counter = 0;
-            if (item.IMAGE_PATH != null)
+        @if (item.IMAGE_PATH != null)
             {
-                <button type="button" data-toggle="modal" data-target="#@counter">  <img src="~/Images/@item.IMAGE_PATH" asp-append-version="true" height="40px" width="50px">  </button>
+                <button type="button" data-toggle="modal" data-target="#myModal-@item.NEW_NUMBER">  <img src="~/Images/@item.IMAGE_PATH" asp-append-version="true" height="40px" width="50px">  </button>
             }
             <!-- Modal -->
-            <div class="modal fade" id="@counter" role="dialog">
+            <div class="modal fade" id="myModal-@item.NEW_NUMBER" role="dialog">
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -102,7 +101,6 @@
                 </div>
             </div>
             <!--End Modal-->
-        }
     </td>
     <td>
         @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
