@@ -55,6 +55,30 @@
             @Html.DisplayNameFor(model => model.IMAGE_PATH)
         </dt>
 
+        <dd>
+            @if (Model.IMAGE_PATH != null)
+            {
+                <button type="button" data-toggle="modal" data-target="#myModal">  <img src="~/Images/@Model.IMAGE_PATH" asp-append-version="true" height="40px" width="50px">  </button>
+            }
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <img src="~/Images/@Model.IMAGE_PATH" asp-append-version="true" height="500px" width="500px">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--End Modal-->
+
+        </dd>
+
     </dl>
 
     @using (Html.BeginForm()) {
