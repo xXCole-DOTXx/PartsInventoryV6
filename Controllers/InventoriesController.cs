@@ -158,8 +158,29 @@ namespace PartsInventoryV6.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,DESCRIPTION,OLD_NUMBER,NEW_NUMBER,UNIT_OF_ISSUE,SYS_CODE,IMAGE_PATH")] Inventory inventory)
+        public ActionResult Edit([Bind(Include = "ID,DESCRIPTION,OLD_NUMBER,NEW_NUMBER,UNIT_OF_ISSUE,SYS_CODE,IMAGE_PATH")] Inventory inventory, HttpPostedFileBase postedFile)
         {
+            string path = Server.MapPath("~/Images/");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+                System.Diagnostics.Debug.WriteLine("Created the folder.");
+            }
+
+            if (postedFile != null)
+            {
+                string fileName = Path.GetFileName(postedFile.FileName);
+                string pattern = @".*(?=\.)";
+                string final = Regex.Replace(fileName, pattern, inventory.NEW_NUMBER);
+                //For full path
+                //inventory.IMAGE_PATH = path + final;
+                //For image name only
+                inventory.IMAGE_PATH = final;
+                postedFile.SaveAs(path + final);
+                ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
+            }
+
+
             if (ModelState.IsValid)
             {
                 db.Entry(inventory).State = EntityState.Modified;
