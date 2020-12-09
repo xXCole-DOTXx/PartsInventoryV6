@@ -154,31 +154,19 @@ namespace PartsInventoryV6.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,DESCRIPTION,OLD_NUMBER,NEW_NUMBER,UNIT_OF_ISSUE,SYS_CODE,IMAGE_PATH")] Inventory inventory, HttpPostedFileBase postedFile)
         {
+            //NEED TO SOMEHOW WORK OUT IF YOU CHANGE THE PICTURE AND ITS FILETYPE ISNT THE SAME
+
             string path = Server.MapPath("~/Images/");
-            System.Diagnostics.Debug.WriteLine("Starting...");
-            System.Diagnostics.Debug.WriteLine("Posted file name: " + postedFile);
             if (postedFile != null)
             {
                 string fileName = Path.GetFileName(postedFile.FileName);
-                string pattern = @".*(?=\.)";
+                string pattern = @".+(?=\.)";
                 string final = Regex.Replace(fileName, pattern, inventory.NEW_NUMBER);
                 inventory.IMAGE_PATH = final;
                 string saveFile = path + final;
-                System.Diagnostics.Debug.WriteLine("Posted file: " + fileName + ". -- Final value: " + final + ". -- Save value: " + saveFile);
-                if (System.IO.File.Exists(saveFile))
-                {
-                    System.Diagnostics.Debug.WriteLine("The file did exist.");
-                    System.IO.File.Delete(saveFile);
-                }
                 postedFile.SaveAs(saveFile);
                 ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
             }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("Posted file was null I guess.");
-                System.Diagnostics.Debug.WriteLine("Path: " + path);
-            }
-
 
             if (ModelState.IsValid)
             {
