@@ -112,15 +112,11 @@ namespace PartsInventoryV6.Controllers
                 System.Diagnostics.Debug.WriteLine("Created the folder.");
             }
 
-
             if (postedFile != null)
             {
                 string fileName = Path.GetFileName(postedFile.FileName);
-                string pattern = @".*(?=\.)";
+                string pattern = @".+?(?=\.)";
                 string final = Regex.Replace(fileName, pattern, inventory.NEW_NUMBER);
-                //For full path
-                //inventory.IMAGE_PATH = path + final;
-                //For image name only
                 inventory.IMAGE_PATH = final;
                 postedFile.SaveAs(path + final);
                 ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
@@ -161,20 +157,11 @@ namespace PartsInventoryV6.Controllers
         public ActionResult Edit([Bind(Include = "ID,DESCRIPTION,OLD_NUMBER,NEW_NUMBER,UNIT_OF_ISSUE,SYS_CODE,IMAGE_PATH")] Inventory inventory, HttpPostedFileBase postedFile)
         {
             string path = Server.MapPath("~/Images/");
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-                System.Diagnostics.Debug.WriteLine("Created the folder.");
-            }
-
             if (postedFile != null)
             {
                 string fileName = Path.GetFileName(postedFile.FileName);
                 string pattern = @".*(?=\.)";
                 string final = Regex.Replace(fileName, pattern, inventory.NEW_NUMBER);
-                //For full path
-                //inventory.IMAGE_PATH = path + final;
-                //For image name only
                 inventory.IMAGE_PATH = final;
                 postedFile.SaveAs(path + final);
                 ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
@@ -210,7 +197,22 @@ namespace PartsInventoryV6.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Inventory inventory = db.Inventories.Find(id);
+            Inventory inventory = db.Inventories.Find(id);  
+            
+            string jpgName = inventory.NEW_NUMBER + ".jpg";
+            var filePath = Server.MapPath("~/Images/" + jpgName);
+            //If file is a .jpg
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+            }
+            else //if the file is a .png
+            {
+                string pngName = inventory.NEW_NUMBER + ".png";
+                var newPath = Server.MapPath("~/Images/" + pngName);
+                System.IO.File.Delete(newPath);
+            }
+
             db.Inventories.Remove(inventory);
             db.SaveChanges();
             return RedirectToAction("Index");
