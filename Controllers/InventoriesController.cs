@@ -154,8 +154,6 @@ namespace PartsInventoryV6.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,DESCRIPTION,OLD_NUMBER,NEW_NUMBER,UNIT_OF_ISSUE,SYS_CODE,IMAGE_PATH")] Inventory inventory, HttpPostedFileBase postedFile)
         {
-            //NEED TO SOMEHOW WORK OUT IF YOU CHANGE THE PICTURE AND ITS FILETYPE ISNT THE SAME
-
             string path = Server.MapPath("~/Images/");
             if (postedFile != null)
             {
@@ -164,9 +162,14 @@ namespace PartsInventoryV6.Controllers
                 string final = Regex.Replace(fileName, pattern, inventory.NEW_NUMBER);
                 inventory.IMAGE_PATH = final;
                 string saveFile = path + final;
+                if (System.IO.File.Exists(saveFile))
+                {
+                    System.IO.File.Delete(saveFile);
+                }
                 postedFile.SaveAs(saveFile);
                 ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
             }
+
 
             if (ModelState.IsValid)
             {
