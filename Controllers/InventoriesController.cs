@@ -162,9 +162,18 @@ namespace PartsInventoryV6.Controllers
                 string final = Regex.Replace(fileName, pattern, inventory.NEW_NUMBER);
                 inventory.IMAGE_PATH = final;
                 string saveFile = path + final;
-                if (System.IO.File.Exists(saveFile))
+                //Look for the the already associated image and check jpg png and gif and if it exists delete it.
+                if (System.IO.File.Exists(path + inventory.NEW_NUMBER + ".jpg"))
                 {
-                    System.IO.File.Delete(saveFile);
+                    System.IO.File.Delete(path + inventory.NEW_NUMBER + ".jpg");
+                }
+                if (System.IO.File.Exists(path + inventory.NEW_NUMBER + ".png"))
+                {
+                    System.IO.File.Delete(path + inventory.NEW_NUMBER + ".png");
+                }
+                if (System.IO.File.Exists(path + inventory.NEW_NUMBER + ".gif"))
+                {
+                    System.IO.File.Delete(path + inventory.NEW_NUMBER + ".gif");
                 }
                 postedFile.SaveAs(saveFile);
                 ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
