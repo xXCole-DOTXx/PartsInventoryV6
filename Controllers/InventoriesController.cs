@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 using PagedList;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
 
 //File was made with the help of: https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/sorting-filtering-and-paging-with-the-entity-framework-in-an-asp-net-mvc-application
 namespace PartsInventoryV6.Controllers
@@ -105,14 +108,30 @@ namespace PartsInventoryV6.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,DESCRIPTION,OLD_NUMBER,NEW_NUMBER,UNIT_OF_ISSUE,SYS_CODE,IMAGE_PATH")] Inventory inventory, HttpPostedFileBase postedFile)
         {
+            //Check to see if the NEW_NUMBER already exists in the DB by looking for a match.
+            var matchingPart = from part in db.Inventories
+                        where part.NEW_NUMBER == inventory.NEW_NUMBER
+                        select part.NEW_NUMBER;
+
+            var match = "";
+            System.Diagnostics.Debug.WriteLine("Printing match:...");
+            foreach (var row in matchingPart.ToList())
+            {
+                Console.WriteLine("Match:" + row.ToString());
+                System.Diagnostics.Debug.WriteLine("Match:" + row.ToString());
+                match = row.ToString();
+            }
+
+            //Pretty sure that match is not an IEnumerable variable but idk what to do with it
+
             string path = Server.MapPath("~/Images/");
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
                 System.Diagnostics.Debug.WriteLine("Created the folder.");
             }
-
-            if (postedFile != null)
+            System.Diagnostics.Debug.WriteLine("First check:" + match);
+            if (postedFile != null && match == "")
             {
                 string fileName = Path.GetFileName(postedFile.FileName);
                 string pattern = @".+?(?=\.)";
@@ -124,9 +143,17 @@ namespace PartsInventoryV6.Controllers
  
             if (ModelState.IsValid)
             {
-                db.Inventories.Add(inventory);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                System.Diagnostics.Debug.WriteLine("Second check:" + match);
+                if (match == "")
+                {
+                    db.Inventories.Add(inventory);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    Response.Write("<script>alert('That New Number already exists. There cannot be duplicate New Numbers.')</script>");
+                }
             }
 
             return View(inventory);
