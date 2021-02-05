@@ -159,6 +159,63 @@ namespace PartsInventoryV6.Controllers
             return View(inventory);
         }
 
+        public ViewResult AdminIndex(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            // using System;
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.DescSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.NewNumSort = sortOrder == "newNum" ? "newNum_desc" : "newNum";
+            ViewBag.OldNumSort = sortOrder == "oldNum" ? "oldNum_desc" : "oldNum";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var parts = from part in db.Inventories
+                        select part;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                parts = parts.Where(part => part.DESCRIPTION.Contains(searchString)
+                                       || part.OLD_NUMBER.Contains(searchString)
+                                       || part.NEW_NUMBER.ToString().Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc": //Sort by name descending
+                    parts = parts.OrderByDescending(part => part.DESCRIPTION);
+                    break;
+                case "newNum": //Sort by new number aescending
+                    parts = parts.OrderBy(part => part.NEW_NUMBER);
+                    break;
+                case "newNum_desc": //Sort by new number descending
+                    parts = parts.OrderByDescending(part => part.NEW_NUMBER);
+                    break;
+                case "oldNum": //Sort by old number
+                    parts = parts.OrderBy(part => part.OLD_NUMBER);
+                    break;
+                case "oldNum_desc": //Sort by old number descending
+                    parts = parts.OrderByDescending(part => part.OLD_NUMBER);
+                    break;
+                default: //Default to ordering by part ID
+                    parts = parts.OrderBy(part => part.ID);
+                    break;
+
+            }
+
+            int pageSize = 100;
+            int pageNumber = (page ?? 1);
+            return View(parts.ToPagedList(pageNumber, pageSize));
+        }
+
         // GET: Inventories/Edit/5
         public ActionResult Edit(int? id)
         {

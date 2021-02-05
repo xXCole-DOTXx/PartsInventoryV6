@@ -5,8 +5,9 @@ namespace PartsInventoryV6
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
-    using Microsoft.AspNetCore.Http;
     using System.Web;
+    using Microsoft.AspNetCore.Http;
+ 
 
     [Table("Inventory")]
     public partial class Inventory
