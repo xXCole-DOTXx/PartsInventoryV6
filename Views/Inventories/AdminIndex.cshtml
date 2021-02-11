@@ -43,13 +43,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("Description", "Index", new { sortOrder = ViewBag.DescSort, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("Description", "AdminIndex", new { sortOrder = ViewBag.DescSort, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("Old Number", "Index", new { sortOrder = ViewBag.OldNumSort, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("Old Number", "AdminIndex", new { sortOrder = ViewBag.OldNumSort, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("New Number", "Index", new { sortOrder = ViewBag.NewNumSort, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("New Number", "AdminIndex", new { sortOrder = ViewBag.NewNumSort, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
             Unit of Issue
@@ -116,5 +116,5 @@
 
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-    @Html.PagedListPager(Model, page => Url.Action("Index",
+    @Html.PagedListPager(Model, page => Url.Action("AdminIndex",
         new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
