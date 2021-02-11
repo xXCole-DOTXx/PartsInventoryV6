@@ -1,0 +1,112 @@
+﻿@model PagedList.IPagedList<PartsInventoryV6.Inventory>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<script src="jquery-3.5.1.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+@{
+    ViewBag.Title = "Parts";
+}
+
+<!---Page created with the help of: https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/sorting-filtering-and-paging-with-the-entity-framework-in-an-asp-net-mvc-application-->
+
+
+<h2>Equipment Inventory</h2>
+
+
+@using (Html.BeginForm("Index", "Inventories", FormMethod.Get)) //Middle value points at the folder IG and the first one at the specific view. I'm not real sure
+{
+    <p>
+        Search: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+    <div id="fullList">
+        @Html.ActionLink("Back to full list", "Index", "Inventories") <!--1.) Display text, view name, folder that view is in-->
+    </div>
+}
+
+<script type="text/javascript">
+    var backToList = document.getElementById("fullList");
+    if (window.location.href.indexOf("SearchString") > -1) {
+        backToList.style.display = "flex";
+    } else {
+        backToList.style.display = "none";
+    }
+</script>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Description", "Index", new { sortOrder = ViewBag.DescSort, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Old Number", "Index", new { sortOrder = ViewBag.OldNumSort, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("New Number", "Index", new { sortOrder = ViewBag.NewNumSort, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            Unit of Issue
+        </th>
+        <th>
+            Sys Code
+        </th>
+        <th>
+            Image
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.DESCRIPTION)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.OLD_NUMBER)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.NEW_NUMBER)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.UNIT_OF_ISSUE)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.SYS_CODE)
+    </td>
+    <td>
+        @if (item.IMAGE_PATH != null)
+            {
+                <button type="button" data-toggle="modal" data-target="#myModal-@item.NEW_NUMBER">  <img src="~/Images/@item.IMAGE_PATH" asp-append-version="true" height="40px" width="50px">  </button>
+            }
+            <!-- Modal -->
+            <div class="modal fade" id="myModal-@item.NEW_NUMBER" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <img src="~/Images/@item.IMAGE_PATH" asp-append-version="true" height="500px" width="500px">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--End Modal-->
+    </td>
+</tr>
+    }
+
+</table>
+<br />
+
+
+
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
