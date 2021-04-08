@@ -113,3 +113,4 @@ C:\Users\e096752\Documents\Cole's Git Repos\PartsInventoryV6\obj\Release\PartsIn
 C:\Users\e096752\Documents\Cole's Git Repos\PartsInventoryV6\obj\Release\PartsInventoryV6.csproj.CopyComplete
 C:\Users\e096752\Documents\Cole's Git Repos\PartsInventoryV6\obj\Release\PartsInventoryV6.dll
 C:\Users\e096752\Documents\Cole's Git Repos\PartsInventoryV6\obj\Release\PartsInventoryV6.pdb
+C:\Users\e096752\Documents\Cole's Git Repos\PartsInventoryV6\obj\Release\PartsInventoryV6.csprojAssemblyReference.cache

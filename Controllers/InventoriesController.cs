@@ -228,6 +228,7 @@ namespace PartsInventoryV6.Controllers
             {
                 return HttpNotFound();
             }
+            System.Diagnostics.Debug.WriteLine(inventory.NEW_NUMBER, inventory.OLD_NUMBER);
             return View(inventory);
         }
 

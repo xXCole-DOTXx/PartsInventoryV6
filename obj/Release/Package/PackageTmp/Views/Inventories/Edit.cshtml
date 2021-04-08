@@ -27,7 +27,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.OLD_NUMBER, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.OLD_NUMBER, new { htmlAttributes = new { @class = "form-control", @required = "required", @type = "number", @value = "0" } })
+                @Html.EditorFor(model => model.OLD_NUMBER, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
                 @Html.ValidationMessageFor(model => model.OLD_NUMBER, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -35,7 +35,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.NEW_NUMBER, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.NEW_NUMBER, new { htmlAttributes = new { @class = "form-control", @id = "newNumEditor", @required = "required", @type = "number", @value = "0" } })
+                @Html.EditorFor(model => model.NEW_NUMBER, new { htmlAttributes = new { @class = "form-control", @required = "required"} })
                 @Html.ValidationMessageFor(model => model.NEW_NUMBER, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -73,7 +73,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "AdminIndex")
 </div>
 
 @section Scripts {
