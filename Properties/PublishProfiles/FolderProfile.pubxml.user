@@ -62,10 +62,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/11/2021 10:47:20</publishTime>
     </File>
     <File Include="bin/PartsInventoryV6.dll">
-      <publishTime>04/08/2021 09:13:30</publishTime>
+      <publishTime>04/08/2021 09:15:38</publishTime>
     </File>
     <File Include="bin/PartsInventoryV6.pdb">
-      <publishTime>04/08/2021 09:13:30</publishTime>
+      <publishTime>04/08/2021 09:15:38</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>02/11/2021 10:47:20</publishTime>
